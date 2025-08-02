@@ -38,18 +38,23 @@ const TransactionsEdit = () => {
     return (
         <div className="row mt-2">
             <div className="col-6 m-auto">
-                {fetchOneTransactionLoading && <Spinner />}
-                {transaction ? (
-                    <TransactionForm
-                        onSubmit={onSubmit}
-                        isLoading={editLoading}
-                        isTransaction={transaction}
-                        isEdit
-                    />
+                {fetchOneTransactionLoading ? (
+                    <Spinner />
                 ) : (
-                    <div className="alert alert-warning">
-                        Transaction not found!
-                    </div>
+                    <>
+                        {transaction ? (
+                            <TransactionForm
+                                onSubmit={onSubmit}
+                                isLoading={editLoading}
+                                isTransaction={transaction}
+                                isEdit
+                            />
+                        ) : (
+                            <div className="alert alert-warning">
+                                Transaction not found!
+                            </div>
+                        )}
+                    </>
                 )}
             </div>
         </div>

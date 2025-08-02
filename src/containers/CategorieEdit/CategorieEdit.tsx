@@ -34,18 +34,23 @@ const CategorieEdit = () => {
     return (
         <div className="row mt-2">
             <div className="col-6 m-auto">
-                {fetchOneCategorieLoading && <Spinner />}
-                {categorie ? (
-                    <CategorieForm
-                        onSubmit={onSubmit}
-                        isLoading={editLoading}
-                        isCategorie={categorie}
-                        isEdit
-                    />
+                {fetchOneCategorieLoading ? (
+                    <Spinner />
                 ) : (
-                    <div className="alert alert-warning">
-                        Categorie not found!
-                    </div>
+                    <>
+                        {categorie ? (
+                            <CategorieForm
+                                onSubmit={onSubmit}
+                                isLoading={editLoading}
+                                isCategorie={categorie}
+                                isEdit
+                            />
+                        ) : (
+                            <div className="alert alert-warning">
+                                Categorie not found!
+                            </div>
+                        )}
+                    </>
                 )}
             </div>
         </div>
