@@ -1,4 +1,4 @@
-type CategoriesType = "" | "income" | "expense";
+export type CategoriesType = "" | "income" | "expense";
 
 export interface TypeCategorie {
     type: CategoriesType;
@@ -14,7 +14,7 @@ export interface TypeCategoriesList {
 export interface TypeTransaction {
     categorie: string;
     amount: number;
-    createdAt: number;
+    createdAt: string;
 }
 export interface TypeTransactionMutation extends TypeTransaction {
     id: string;

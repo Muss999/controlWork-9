@@ -30,7 +30,7 @@ const TransactionItem = ({
 
     if (!rightCategorie) {
         return (
-            <div className="alert alert-warning w-100">
+            <div className="alert alert-danger w-100">
                 Transaction was not found
             </div>
         );

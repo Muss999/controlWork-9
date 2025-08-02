@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import Spinner from "../../components/Spinner/Spinner";
 import TransactionItem from "./TransactionItem";
@@ -19,7 +18,6 @@ import {
 import { getCategories } from "../../store/categoriesThunk";
 
 const TransactionsList = () => {
-    const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const transactions = useAppSelector(selectTransactions);
     const transactionsLoading = useAppSelector(selectGetTransactionsFetching);
@@ -30,7 +28,7 @@ const TransactionsList = () => {
     useEffect(() => {
         dispatch(getTransactions());
         dispatch(getCategories());
-    }, []);
+    }, [dispatch]);
 
     const removeTransaction = async (id: string) => {
         if (window.confirm("Do you really want to delete this transaction?")) {
@@ -40,10 +38,12 @@ const TransactionsList = () => {
     };
 
     const totalCost = transactions.reduce((acc, transaction) => {
-        const category = categories.find((c) => c.id === transaction.categorie);
-        if (!category) return acc;
+        const categorie = categories.find(
+            (c) => c.id === transaction.categorie
+        );
+        if (!categorie) return acc;
 
-        return category.type === "income"
+        return categorie.type === "income"
             ? acc + transaction.amount
             : acc - transaction.amount;
     }, 0);
@@ -70,13 +70,6 @@ const TransactionsList = () => {
                         {` ${totalCost} KGS`}
                     </span>
                 </h4>
-                <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={() => navigate("/transactions/add")}
-                >
-                    Add Transaction
-                </button>
             </div>
 
             {transactionsLoading || categoriesLoading ? (
