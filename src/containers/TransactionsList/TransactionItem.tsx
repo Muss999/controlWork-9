@@ -6,6 +6,11 @@ import type {
 import SpinnerButton from "../../components/Spinner/SpinnerButton";
 import { type JSX, type MouseEventHandler } from "react";
 import dayjs from "dayjs";
+import { useAppDispatch } from "../../app/hooks";
+import {
+    deleteTransaction,
+    getTransactions,
+} from "../../store/transactionThunk";
 
 interface Props {
     transaction: TypeTransactionMutation;
@@ -21,7 +26,12 @@ const TransactionItem = ({
     categories,
 }: Props) => {
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
 
+    const removeTransactionByCategorieDelete = async (id: string) => {
+        await dispatch(deleteTransaction(id));
+        await dispatch(getTransactions());
+    };
     const rightCategorie: TypeCategorieMutation | undefined = categories.find(
         (categorie) => categorie.id === transaction.categorie
     );
@@ -29,11 +39,8 @@ const TransactionItem = ({
     let transactionAmount: JSX.Element;
 
     if (!rightCategorie) {
-        return (
-            <div className="alert alert-danger w-100">
-                Transaction was not found
-            </div>
-        );
+        removeTransactionByCategorieDelete(transaction.id);
+        return null;
     }
 
     if (rightCategorie.type === "income") {
