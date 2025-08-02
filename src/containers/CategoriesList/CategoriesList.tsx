@@ -2,10 +2,11 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
     selectCategories,
+    selectDeleteCategorieFetching,
     selectGetCategoriesFetching,
 } from "../../store/categoriesSlice";
 import CategorieItem from "./CategorieItem";
-import { getCategories } from "../../store/categoriesThunk";
+import { deleteCategorie, getCategories } from "../../store/categoriesThunk";
 import Spinner from "../../components/Spinner/Spinner";
 import { useNavigate } from "react-router-dom";
 
@@ -14,10 +15,18 @@ const CategoriesList = () => {
     const navigate = useNavigate();
     const categories = useAppSelector(selectCategories);
     const categoriesLoading = useAppSelector(selectGetCategoriesFetching);
+    const deleteLoading = useAppSelector(selectDeleteCategorieFetching);
 
     useEffect(() => {
         dispatch(getCategories());
     }, [dispatch]);
+
+    const removeCategorie = async (id: string) => {
+        if (window.confirm("Do you really want to delete this categorie?")) {
+            await dispatch(deleteCategorie(id));
+            await dispatch(getCategories());
+        }
+    };
 
     return (
         <>
@@ -40,6 +49,10 @@ const CategoriesList = () => {
                             <CategorieItem
                                 categorie={categorie}
                                 key={categorie.id}
+                                removeCategorie={() =>
+                                    removeCategorie(categorie.id)
+                                }
+                                deleteLoading={deleteLoading}
                             />
                         );
                     })}

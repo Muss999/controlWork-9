@@ -4,17 +4,24 @@ import { useState, type ChangeEvent, type FormEvent } from "react";
 import type { TypeCategorie } from "../../types";
 
 interface Props {
-    onSubmit: (dish: TypeCategorie) => void;
+    onSubmit: (categorie: TypeCategorie) => void;
     isLoading?: boolean;
+    isCategorie?: TypeCategorie;
+    isEdit?: boolean;
 }
 const initialState: TypeCategorie = {
     name: "",
     type: "",
 };
 
-const CategorieForm = ({ onSubmit, isLoading = false }: Props) => {
+const CategorieForm = ({
+    onSubmit,
+    isLoading = false,
+    isCategorie = initialState,
+    isEdit = false,
+}: Props) => {
     const navigate = useNavigate();
-    const [categorie, setCategorie] = useState<TypeCategorie>(initialState);
+    const [categorie, setCategorie] = useState<TypeCategorie>(isCategorie);
 
     const changeCategorie = (
         event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -47,7 +54,7 @@ const CategorieForm = ({ onSubmit, isLoading = false }: Props) => {
 
     return (
         <form onSubmit={onSubmitHandler}>
-            <h4>Add new categorie</h4>
+            <h4>{isEdit ? "Edit categorie" : "Add new categorie"}</h4>
             <div className="form-group mb-3">
                 <label htmlFor="name">Name</label>
                 <input

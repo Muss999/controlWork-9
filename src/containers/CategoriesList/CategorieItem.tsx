@@ -1,12 +1,20 @@
 import { useNavigate } from "react-router-dom";
 import type { TypeCategorieMutation } from "../../types";
 import "./CategorieItem.css";
+import SpinnerButton from "../../components/Spinner/SpinnerButton";
+import type { MouseEventHandler } from "react";
 
 interface Props {
     categorie: TypeCategorieMutation;
+    removeCategorie: MouseEventHandler;
+    deleteLoading: boolean | string;
 }
 
-const CategorieItem = ({ categorie }: Props) => {
+const CategorieItem = ({
+    categorie,
+    removeCategorie,
+    deleteLoading,
+}: Props) => {
     const navigate = useNavigate();
 
     return (
@@ -25,11 +33,21 @@ const CategorieItem = ({ categorie }: Props) => {
                 <button
                     type="button"
                     className="btn btn-warning"
-                    onClick={() => navigate(`/cateries/${categorie.id}/edit`)}
+                    onClick={() => navigate(`/categories/${categorie.id}/edit`)}
                 >
                     Edit
                 </button>
-                <button type="button" className="btn btn-danger">
+                <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={removeCategorie}
+                    disabled={
+                        deleteLoading ? deleteLoading === categorie.id : false
+                    }
+                >
+                    {deleteLoading && deleteLoading === categorie.id && (
+                        <SpinnerButton />
+                    )}
                     Delete
                 </button>
             </div>
