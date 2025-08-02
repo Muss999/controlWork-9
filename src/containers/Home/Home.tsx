@@ -1,5 +1,11 @@
+import TransactionsList from "../TransactionsList/TransactionsList";
+
 const Home = () => {
-    return <div>Home</div>;
+    return (
+        <>
+            <TransactionsList />
+        </>
+    );
 };
 
 export default Home;
