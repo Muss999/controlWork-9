@@ -1,0 +1,10 @@
+.categorieIncome {
+    color: green;
+}
+.categorieExpense {
+    color: red;
+}
+.categorieItem {
+    font-size: 20px;
+    margin-right: 30px;
+}
